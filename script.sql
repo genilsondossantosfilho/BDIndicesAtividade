@@ -13,4 +13,16 @@ VALOR_PARCELA varchar(10)
 
 
 
+explain analyse select * from bolsaFamiliaPagamentos where NIS_FAVORECIDO = '16369724271' limit 10;
+-- Consulta concluída 00:00:02.679 sem indice
+
+
+
+CREATE INDEX index_cpf ON bolsaFamiliaPagamentos (CPF_FAVORECIDO);
+
+
+
+
+explain analyse select * from bolsaFamiliaPagamentos where NIS_FAVORECIDO = '16369724271' limit 10;
+-- Consulta concluída 00:00:00.541 mesma consulta na mesma tabela agora com indices
 																																																																		
