@@ -20,7 +20,7 @@ explain analyse select * from bolsaFamiliaPagamentos where NIS_FAVORECIDO = '163
 
 
 
-CREATE INDEX index_nis ON bolsaFamiliaPagamentos (NIS_FAVORECIDO);
+create index index_nis ON bolsaFamiliaPagamentos (NIS_FAVORECIDO);
 -- demorou Query returned successfully with no result in 1558929 ms.
 
 
@@ -49,20 +49,31 @@ WITH (FORMAT csv, HEADER, DELIMITER ';', ENCODING 'WIN1252');
 select * from bolsaFamiliaPagamentos2 limit 10
 
 
-CREATE INDEX index_nis2 ON bolsaFamiliaPagamentos2 (NIS_FAVORECIDO);
+create index index_nis2 ON bolsaFamiliaPagamentos2 (NIS_FAVORECIDO);
 
 
 
 
 EXPLAIN ANALYZE
-select distinct b1.NOME_FAVORECIDO, b1.NOME_MUNICIPIO from bolsaFamiliaPagamentos b1
+select b1.NOME_FAVORECIDO, b1.NOME_MUNICIPIO from bolsaFamiliaPagamentos b1
 inner join bolsaFamiliaPagamentos2 b2
 on b1.NIS_FAVORECIDO = b2.NIS_FAVORECIDO
-limit 5
+where b1.NIS_FAVORECIDO = '20921128228'
 
--- tempo de consulta usando os 2 index
+-- tempo de consulta usando os 2 index "Execution time: 0.446 ms"
+
+drop index index_nis
+
+drop index index_nis2
 
 
+
+EXPLAIN ANALYZE
+select b1.NOME_FAVORECIDO, b1.NOME_MUNICIPIO from bolsaFamiliaPagamentos b1
+inner join bolsaFamiliaPagamentos2 b2
+on b1.NIS_FAVORECIDO = b2.NIS_FAVORECIDO
+where b1.NIS_FAVORECIDO = '20921128228'
+-- mesma consulta mas sem os 2 indexes "Execution time: 98246.814 ms"
 
 
 
