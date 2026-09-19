@@ -1,10 +1,26 @@
+create table bolsaFamiliaPagamentos(
+MES_COMPETENCIA varchar(8),
+MES_REFERENCIA varchar(8),
+UF varchar(2),
+CODIGO_MUNICIPIO_SIAFI varchar(5),
+NOME_MUNICIPIO varchar(100),
+CPF_FAVORECIDO varchar(15),
+NIS_FAVORECIDO varchar(11),
+NOME_FAVORECIDO varchar(100),
+VALOR_PARCELA varchar(10)
+);
+
+COPY bolsaFamiliaPagamentos FROM 'C:\Users\zenildo\Downloads\animes e series/202101_BolsaFamilia_Pagamentos.csv'
+WITH (FORMAT csv, HEADER, DELIMITER ';', ENCODING 'WIN1252');
+
+
 
 explain analyse select * from bolsaFamiliaPagamentos where NIS_FAVORECIDO = '16369724271' limit 10;
--- Consulta concluída 00:00:02.679 sem indice
+-- Consulta concluída "Execution time: 196581.811 ms" sem indice
 
 
 
-CREATE INDEX index_cpf ON bolsaFamiliaPagamentos (CPF_FAVORECIDO);
+CREATE INDEX index_nis ON bolsaFamiliaPagamentos (NIS_FAVORECIDO);
 
 
 
@@ -44,26 +60,10 @@ CREATE TABLE notasFiscais (
 
 
 
-
-
-COPY vinculos FROM '/tmp/vinculos.csv' WITH (
-    FORMAT csv, HEADER,DELIMITER ',',   ENCODING 'LATIN1'
-);
-
-
-COPY notasFiscais FROM '/tmp/202601_NFe_NotaFiscal.csv' WITH (
-    FORMAT csv, HEADER,DELIMITER ';',   ENCODING 'LATIN1'
-);
-
-cp /home/aluno/Downloads/genilson/202601_NFe_NotaFiscal.csv /tmp/
-
-chmod 644 /tmp/202601_NFe_NotaFiscal.csv
-ls -l /tmp/202601_NFe_NotaFiscal.csv
-
+COPY notasFiscais FROM 'C:\Users\zenildo\Downloads\animes e series\202601_NFe_NotaFiscal.csv'
+WITH (FORMAT csv, HEADER, DELIMITER ';', ENCODING 'WIN1252');
 
 select * from notasFiscais limit 10
-
-drop index index_cpf
 
 
 select b.CPF_FAVORECIDO, n.modelo from 
